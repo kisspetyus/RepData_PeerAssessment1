@@ -66,7 +66,7 @@ img {
 
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>I loaded the data and I processed the data into a fromat suitable for analysis</p>
+<p>I loaded the data and I processed the data into a format suitable for analysis</p>
 <pre class="r"><code>act &lt;- read.csv(&quot;activity.csv&quot;,header = T)
 act$dt &lt;- strptime(act$date, &quot;%Y-%m-%d&quot;)
 act$interval &lt;- as.factor(act$interval)
@@ -94,7 +94,7 @@ t2[mx,2]</code></pre>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
-<p>I replaced he missing values with the mean value of the steps</p>
+<p>I replaced the missing values with the mean value of the steps</p>
 <pre class="r"><code>sum(is.na(act$steps))  </code></pre>
 <pre><code>## [1] 2304</code></pre>
 <pre class="r"><code>act2&lt;-act

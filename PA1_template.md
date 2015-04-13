@@ -3,7 +3,7 @@
 
 ## Loading and preprocessing the data
 
-I loaded the data and I processed the data into a fromat suitable for analysis
+I loaded the data and I processed the data into a format suitable for analysis
 
 
 ```r
@@ -56,7 +56,7 @@ t2[mx,2]
 
 ## Imputing missing values
 
-I replaced he missing values with the mean value of the steps
+I replaced the missing values with the mean value of the steps
 
 ```r
 sum(is.na(act$steps))  
