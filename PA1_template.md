@@ -7,14 +7,6 @@ I loaded the data and I processed the data into a fromat suitable for analysis
 
 
 ```r
-getwd()
-```
-
-```
-## [1] "C:/Users/Petra/Documents/RDocs"
-```
-
-```r
 act <- read.csv("activity.csv",header = T)
 act$dt <- strptime(act$date, "%Y-%m-%d")
 act$interval <- as.factor(act$interval)

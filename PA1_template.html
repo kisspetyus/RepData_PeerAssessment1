@@ -67,8 +67,6 @@ img {
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
 <p>I loaded the data and I processed the data into a fromat suitable for analysis</p>
-<pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/Petra/Documents/RDocs&quot;</code></pre>
 <pre class="r"><code>act &lt;- read.csv(&quot;activity.csv&quot;,header = T)
 act$dt &lt;- strptime(act$date, &quot;%Y-%m-%d&quot;)
 act$interval &lt;- as.factor(act$interval)
