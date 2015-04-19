@@ -8,9 +8,9 @@ I loaded the data and I processed the data into a format suitable for analysis
 
 ```r
 act <- read.csv("activity.csv",header = T)
-act$dt <- strptime(act$date, "%Y-%m-%d")
-act$interval <- as.factor(act$interval)
-act$dtf <- as.factor(act$date)
+act$dt <- strptime(act$date, "%Y-%m-%d") ##creating a new attribute: dt which is the date in POSIXt
+act$interval <- as.factor(act$interval) ##setting the interval as factor
+act$dtf <- as.factor(act$date) ##creating a new attribute (date as factor)
 ```
 
 
@@ -25,8 +25,19 @@ hist(t,nclass=10,xlab="Total number of steps taken per day",main="Total number o
 ![](PA1_template_files/figure-html/totalstep-1.png) 
 
 ```r
-mt <- mean(t)
-mdt <-median(t)
+mean(t)
+```
+
+```
+## [1] 9354.23
+```
+
+```r
+median(t)
+```
+
+```
+## [1] 10395
 ```
 
 
@@ -68,7 +79,7 @@ sum(is.na(act$steps))
 
 ```r
 act2<-act
-act2$steps <- replace(act2$steps,is.na(act2$steps),round(mean(act2$steps,na.rm=T),0))
+act2$steps <- replace(act2$steps,is.na(act2$steps),round(mean(act2$steps,na.rm=T),0)) ##replacing the missing values with the mean value
 t3 <- tapply(act2$steps,act2$dtf,sum,na.rm=T)
 hist(t3,nclass=10,xlab="Total number of steps taken per day",main="Total number of steps taken per day",col="red")
 ```
@@ -99,15 +110,30 @@ These mean and median values differ from the estimates from the first part of th
 
 ```r
 act4 <- act
-act4$wd <- weekdays(act4$dt)
-act4$weflag <- act4$wd %in% c("szombat","vasárnap")
-t4 <- tapply(act4$steps,act4[,c(3,7)],mean,na.rm=T)
-t4 <- data.frame(t4)
-t4$interval <- row.names(t4)
-names(t4) <- c("weekday","weekend","interval")
-par(mfrow=c(2,1),mar=c(5,5,1,1))
-with(t4, plot(interval, weekend, col="blue", type="l",ylab="Number of steps", main="weekend"))
-with(t4, plot(interval, weekday, col="blue", type="l",ylab="Number of steps", main="weekday"))
+act4$wd <- weekdays(act4$dt) 
+act4$wend <- "weekday" ##creating a new attribute to flag the weekend days
+act4$wend[act4$wd=="szombat"] <- "weekend"
+act4$wend[act4$wd=="vasárnap"] <- "weekend"
+library(reshape2)
+```
+
+```
+## Warning: package 'reshape2' was built under R version 3.0.3
+```
+
+```r
+act4melt <- melt(act4, id=c("wend","interval"),measure.vars = c("steps")) ##melting data
+act4cast <- dcast(act4melt, wend + interval ~ variable,mean,na.rm=T) ##casting data
+act4cast$interval <- as.numeric(act4cast$interval) ##using interval as numeric
+library(lattice) 
+```
+
+```
+## Warning: package 'lattice' was built under R version 3.0.3
+```
+
+```r
+xyplot(steps ~ interval | wend, data=act4cast, layout=c(1,2),type="l")
 ```
 
 ![](PA1_template_files/figure-html/weekends-1.png) 
